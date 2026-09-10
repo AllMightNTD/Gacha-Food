@@ -16,26 +16,26 @@
     <FilterBar />
 
     <!-- Funny Couple Quote / Slogan Bar -->
-    <div class="px-4 py-1 text-center relative z-10">
+    <div class="px-2.5 sm:px-4 py-0.5 sm:py-1 text-center relative z-10 max-w-full">
       <div
         @click="cycleQuote"
-        class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/80 border border-pink-200/80 rounded-full shadow-xs text-xs font-bold text-rose-600 active:scale-95 transition-all cursor-pointer hover:bg-pink-50"
+        class="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 bg-white/80 border border-pink-200/80 rounded-full shadow-xs text-[10px] sm:text-xs font-bold text-rose-600 active:scale-95 transition-all cursor-pointer hover:bg-pink-50 max-w-[95%]"
       >
-        <span>💡</span>
-        <span>"{{ currentQuote.text }}"</span>
-        <span class="text-[10px] text-gray-400">↻</span>
+        <span class="shrink-0">💡</span>
+        <span class="truncate">"{{ currentQuote.text }}"</span>
+        <span class="text-[9px] text-gray-400 shrink-0">↻</span>
       </div>
     </div>
 
     <!-- Main Game Area: Gashapon Machine -->
-    <main class="flex-1 flex flex-col items-center justify-center px-3 py-3 relative z-10">
+    <main class="flex-1 flex flex-col items-center justify-center px-1 sm:px-3 py-1 sm:py-2 relative z-10">
       <GashaponMachine />
     </main>
 
     <!-- Bottom Love Motto Footer -->
-    <footer class="text-center text-[11px] text-gray-400 font-medium px-4 py-3 relative z-10 border-t border-pink-100/50">
+    <footer class="text-center text-[10px] sm:text-[11px] text-gray-400 font-medium px-2 py-1.5 sm:py-2.5 relative z-10 border-t border-pink-100/50">
       <p>Quay ra món gì là phải vui vẻ đi ăn món đó nha! Cấm dỗi hờn ❤️</p>
-      <p class="text-[10px] text-gray-300 mt-0.5">Tiệm Gacha Đồ Ăn Cặp Đôi • 100% Không Cãi Nhau</p>
+      <p class="text-[9px] sm:text-[10px] text-gray-300 mt-0.5">Tiệm Gacha Đồ Ăn Cặp Đôi • 100% Không Cãi Nhau</p>
     </footer>
 
     <!-- Capsule Hatching & Result Modal -->

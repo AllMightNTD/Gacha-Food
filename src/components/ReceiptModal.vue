@@ -4,43 +4,43 @@
       <!-- Receipt Printable Container -->
       <div
         ref="receiptRef"
-        class="w-full bg-white text-gray-800 rounded-3xl p-6 shadow-2xl relative border border-gray-100 font-mono text-xs overflow-hidden"
+        class="w-full bg-white text-gray-800 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-2xl relative border border-gray-100 font-mono text-xs overflow-hidden"
       >
         <!-- Top Jagged Edge / Punch hole decoration -->
-        <div class="flex justify-between items-center -mt-2 mb-3 px-2 text-gray-300">
+        <div class="flex justify-between items-center -mt-2 mb-2 sm:mb-3 px-1 text-gray-300">
           <span>●</span><span>●</span><span>●</span><span>●</span><span>●</span><span>●</span><span>●</span><span>●</span>
         </div>
 
         <!-- Receipt Header -->
-        <div class="text-center pb-3 border-b-2 border-dashed border-gray-300">
-          <div class="text-2xl mb-1">💖 🍱 💖</div>
-          <h2 class="text-sm font-black tracking-widest text-gray-900 uppercase font-sans">
+        <div class="text-center pb-2.5 sm:pb-3 border-b-2 border-dashed border-gray-300">
+          <div class="text-xl sm:text-2xl mb-1">💖 🍱 💖</div>
+          <h2 class="text-xs sm:text-sm font-black tracking-widest text-gray-900 uppercase font-sans">
             BIÊN LAI HẸN HÒ GACHA FOOD
           </h2>
-          <p class="text-[10px] text-gray-500 mt-0.5">
+          <p class="text-[9px] sm:text-[10px] text-gray-500 mt-0.5">
             Tiệm Gacha Giải Cứu Bữa Tối • Số: #LOVE-{{ receiptId }}
           </p>
-          <p class="text-[10px] text-gray-400 mt-0.5">
+          <p class="text-[9px] sm:text-[10px] text-gray-400 mt-0.5">
             Thời gian: {{ formattedDate }}
           </p>
         </div>
 
         <!-- Couple Name Fields -->
-        <div class="py-3 border-b border-dashed border-gray-200 space-y-1.5 font-sans">
+        <div class="py-2.5 sm:py-3 border-b border-dashed border-gray-200 space-y-1.5 font-sans">
           <div class="flex items-center justify-between text-xs">
-            <span class="text-gray-500 font-bold">Người thương 1:</span>
+            <span class="text-gray-500 font-bold text-[11px] sm:text-xs">Người thương 1:</span>
             <input
               v-model="boyName"
               placeholder="Tên bạn nam"
-              class="w-36 text-right font-black text-rose-600 bg-pink-50/50 px-2 py-0.5 rounded-lg border border-pink-100 focus:outline-none focus:ring-1 focus:ring-rose-400"
+              class="w-28 sm:w-36 text-right font-black text-rose-600 bg-pink-50/50 px-2 py-0.5 rounded-lg border border-pink-100 focus:outline-none focus:ring-1 focus:ring-rose-400 text-xs"
             />
           </div>
           <div class="flex items-center justify-between text-xs">
-            <span class="text-gray-500 font-bold">Người thương 2:</span>
+            <span class="text-gray-500 font-bold text-[11px] sm:text-xs">Người thương 2:</span>
             <input
               v-model="girlName"
               placeholder="Tên bạn nữ"
-              class="w-36 text-right font-black text-rose-600 bg-pink-50/50 px-2 py-0.5 rounded-lg border border-pink-100 focus:outline-none focus:ring-1 focus:ring-rose-400"
+              class="w-28 sm:w-36 text-right font-black text-rose-600 bg-pink-50/50 px-2 py-0.5 rounded-lg border border-pink-100 focus:outline-none focus:ring-1 focus:ring-rose-400 text-xs"
             />
           </div>
         </div>
