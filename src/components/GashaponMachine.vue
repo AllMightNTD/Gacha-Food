@@ -79,8 +79,8 @@
           <p v-else-if="machineState === 'spinning'" class="text-xs font-black text-yellow-200 drop-shadow-sm animate-bounce">
             🌀 ĐANG CHỌN MÓN NGON... 🌀
           </p>
-          <p v-else-if="machineState === 'dropped'" class="text-xs font-black text-emerald-200 drop-shadow-sm animate-pulse">
-            ✨ ĐÃ RA TRỨNG! BẤM MỞ NGAY ✨
+          <p v-else class="text-xs font-black text-yellow-200 drop-shadow-sm animate-pulse">
+            ✨ ĐANG MỞ MÓN ĂN... ✨
           </p>
         </div>
       </div>
@@ -90,24 +90,22 @@
         <!-- Chute flap -->
         <div class="absolute top-0 w-32 h-3 bg-gray-700 rounded-b-md"></div>
 
-        <!-- Dropped capsule in tray -->
+        <!-- Dropped capsule in tray (auto-opening) -->
         <div
-          v-if="machineState === 'dropped'"
-          @click="handleCapsuleClick"
-          class="dropped-capsule relative cursor-pointer active:scale-95 transition-all flex flex-col items-center animate-bounce-gentle z-30"
+          v-if="machineState === 'dropped' || machineState === 'opening'"
+          class="dropped-capsule relative flex flex-col items-center animate-bounce-gentle z-30 pointer-events-none"
         >
           <!-- Capsule egg -->
           <div
-            class="w-14 h-14 rounded-full shadow-lg border-2 border-white flex items-center justify-center overflow-hidden relative cursor-pointer animate-pulse"
+            class="w-14 h-14 rounded-full shadow-lg border-2 border-white flex items-center justify-center overflow-hidden relative animate-pulse"
             :style="{ backgroundColor: currentCapsuleColor }"
           >
             <!-- Half white top shell -->
             <div class="w-full h-1/2 bg-white/80 absolute top-0 left-0 border-b border-white/40"></div>
             <div class="relative z-10 text-xl">✨</div>
           </div>
-          <!-- Click to open prompt badge -->
-          <span class="mt-1 bg-yellow-300 text-yellow-900 text-[10px] font-extrabold px-2 py-0.5 rounded-full shadow-md border border-white animate-bounce whitespace-nowrap">
-            Chạm để mở! 🎁
+          <span class="mt-1 text-yellow-200 text-[10px] font-extrabold animate-pulse">
+            Đang mở... 🎁
           </span>
         </div>
 
@@ -124,8 +122,6 @@
 import { ref } from 'vue'
 import { useGacha } from '../composables/useGacha.js'
 import { useAudio } from '../composables/useAudio.js'
-
-const emit = defineEmits(['capsule-clicked'])
 
 const { machineState, currentCapsuleColor, startSpin, openCapsule } = useGacha()
 const { playCrankSound, playDropSound, playOpenSound, triggerHaptic } = useAudio()
@@ -155,10 +151,11 @@ async function handleCrankClick() {
 
   await startSpin()
   playDropSound()
-}
 
-function handleCapsuleClick() {
-  playOpenSound()
-  emit('capsule-clicked')
+  // Tự động mở trứng và hiện món ăn ngay sau khi rơi
+  setTimeout(async () => {
+    playOpenSound()
+    await openCapsule()
+  }, 350)
 }
 </script>

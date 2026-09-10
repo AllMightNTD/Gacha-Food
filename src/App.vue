@@ -29,7 +29,7 @@
 
     <!-- Main Game Area: Gashapon Machine -->
     <main class="flex-1 flex flex-col items-center justify-center px-3 py-3 relative z-10">
-      <GashaponMachine @capsule-clicked="handleCapsuleClicked" />
+      <GashaponMachine />
     </main>
 
     <!-- Bottom Love Motto Footer -->
@@ -76,7 +76,7 @@ const isMenuOpen = ref(false)
 const isReceiptOpen = ref(false)
 const confirmedFood = ref(null)
 
-const { openCapsule, resetGacha } = useGacha()
+const { resetGacha } = useGacha()
 const { activePunishment, resetVeto } = useVeto()
 
 // Quote rotation
@@ -86,10 +86,6 @@ const currentQuote = ref(coupleQuotes[0])
 function cycleQuote() {
   quoteIndex.value = (quoteIndex.value + 1) % coupleQuotes.length
   currentQuote.value = coupleQuotes[quoteIndex.value]
-}
-
-function handleCapsuleClicked() {
-  openCapsule()
 }
 
 function handleFoodConfirmed(food) {
