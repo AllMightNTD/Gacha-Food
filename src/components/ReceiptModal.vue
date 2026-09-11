@@ -1,142 +1,144 @@
 <template>
-  <div class="fixed inset-0 z-50 flex items-center justify-center p-3 bg-black/70 backdrop-blur-sm select-none overflow-y-auto">
-    <div class="w-full max-w-sm my-auto animate-pop flex flex-col items-center">
-      <!-- Receipt Printable Container -->
+  <Teleport to="body" :disabled="isTest">
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-3.5 sm:p-4 bg-[#1E1B4B]/80 backdrop-blur-sm select-none overflow-y-auto font-sora">
+      <div class="w-full max-w-[356px] sm:max-w-[380px] max-h-[85vh] sm:max-h-[88vh] my-auto animate-pop flex flex-col items-center overflow-y-auto no-scrollbar">
+      <!-- Printable Card Container -->
       <div
         ref="receiptRef"
-        class="w-full bg-white text-gray-800 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-2xl relative border border-gray-100 font-mono text-xs overflow-hidden"
+        class="w-full bg-gradient-to-b from-white via-pink-50/40 to-[#FCE7F3]/50 rounded-[32px] border-4 border-[#FCE7F3] shadow-[0_16px_32px_rgba(30,27,75,0.5)] flex flex-col overflow-hidden p-5 relative z-10"
       >
-        <!-- Top Jagged Edge / Punch hole decoration -->
-        <div class="flex justify-between items-center -mt-2 mb-2 sm:mb-3 px-1 text-gray-300">
-          <span>●</span><span>●</span><span>●</span><span>●</span><span>●</span><span>●</span><span>●</span><span>●</span>
+        <!-- Top Badge & Header -->
+        <div class="flex flex-col items-center gap-2 pb-3 border-b border-[#DDD6FE]">
+          <!-- Gold Header Badge -->
+          <div class="px-3 py-1 bg-[#F59E0B] border-2 border-white rounded-xl shadow-xs">
+            <span class="text-[11px] font-extrabold text-white uppercase tracking-wide">
+              📜 THẺ THỦ CUNG HẸN HÒ • BIÊN LAI HẸN HÒ GACHA FOOD
+            </span>
+          </div>
+
+          <div class="text-center">
+            <span class="text-xs font-semibold text-[#6B21A8]">Mã thẻ: #LOVE-{{ receiptId }}</span>
+            <p class="text-[10px] text-gray-500 mt-0.5">Thời gian: {{ formattedDate }}</p>
+          </div>
         </div>
 
-        <!-- Receipt Header -->
-        <div class="text-center pb-2.5 sm:pb-3 border-b-2 border-dashed border-gray-300">
-          <div class="text-xl sm:text-2xl mb-1">💖 🍱 💖</div>
-          <h2 class="text-xs sm:text-sm font-black tracking-widest text-gray-900 uppercase font-sans">
-            BIÊN LAI HẸN HÒ GACHA FOOD
-          </h2>
-          <p class="text-[9px] sm:text-[10px] text-gray-500 mt-0.5">
-            Tiệm Gacha Giải Cứu Bữa Tối • Số: #LOVE-{{ receiptId }}
-          </p>
-          <p class="text-[9px] sm:text-[10px] text-gray-400 mt-0.5">
-            Thời gian: {{ formattedDate }}
-          </p>
-        </div>
-
-        <!-- Couple Name Fields -->
-        <div class="py-2.5 sm:py-3 border-b border-dashed border-gray-200 space-y-1.5 font-sans">
-          <div class="flex items-center justify-between text-xs">
-            <span class="text-gray-500 font-bold text-[11px] sm:text-xs">Người thương 1:</span>
+        <!-- Couple Passport Identity Slots -->
+        <div class="py-3 border-b border-[#DDD6FE] flex flex-col gap-2">
+          <div class="flex items-center justify-between gap-2 text-xs">
+            <span class="font-bold text-[#1E1B4B] shrink-0">Người thương 1:</span>
             <input
               v-model="boyName"
               placeholder="Tên bạn nam"
-              class="w-28 sm:w-36 text-right font-black text-rose-600 bg-pink-50/50 px-2 py-0.5 rounded-lg border border-pink-100 focus:outline-none focus:ring-1 focus:ring-rose-400 text-xs"
+              class="w-36 text-right font-bold text-[#1E1B4B] bg-[#FFFBEB] px-2.5 py-1 rounded-[12px] border-[1.5px] border-[#DDD6FE] focus:outline-none focus:border-[#8B5CF6] text-xs"
             />
           </div>
-          <div class="flex items-center justify-between text-xs">
-            <span class="text-gray-500 font-bold text-[11px] sm:text-xs">Người thương 2:</span>
+
+          <div class="flex items-center justify-center -my-1 text-base animate-pulse">
+            💖
+          </div>
+
+          <div class="flex items-center justify-between gap-2 text-xs">
+            <span class="font-bold text-[#1E1B4B] shrink-0">Người thương 2:</span>
             <input
               v-model="girlName"
               placeholder="Tên bạn nữ"
-              class="w-28 sm:w-36 text-right font-black text-rose-600 bg-pink-50/50 px-2 py-0.5 rounded-lg border border-pink-100 focus:outline-none focus:ring-1 focus:ring-rose-400 text-xs"
+              class="w-36 text-right font-bold text-[#1E1B4B] bg-[#FCE7F3] px-2.5 py-1 rounded-[12px] border-[1.5px] border-[#DDD6FE] focus:outline-none focus:border-[#8B5CF6] text-xs"
             />
           </div>
         </div>
 
-        <!-- Food Item Details -->
-        <div class="py-3 border-b-2 border-dashed border-gray-300 space-y-2 font-sans">
-          <div class="flex items-center justify-between font-black text-sm text-gray-900">
-            <div class="flex items-center gap-1.5">
-              <span class="text-lg">{{ food.icon }}</span>
-              <span>{{ food.name }}</span>
+        <!-- Food Showcase Details -->
+        <div class="py-3 border-b border-[#DDD6FE] flex flex-col gap-2.5">
+          <div class="p-3 bg-[#FFFBEB] rounded-[20px] border-2 border-[#F3E8FF] flex items-center justify-between gap-3 shadow-xs">
+            <div class="flex items-center gap-3 min-w-0">
+              <div class="w-11 h-11 rounded-[12px] bg-white flex items-center justify-center text-2xl shrink-0 shadow-2xs">
+                {{ food.icon }}
+              </div>
+              <div class="min-w-0 flex flex-col gap-0.5">
+                <h3 class="font-bricolage font-extrabold text-base text-[#1E1B4B] truncate leading-tight">
+                  {{ food.name }}
+                </h3>
+                <span class="text-[11px] font-medium text-[#6B21A8]">
+                  Ví ước tính: {{ food.priceLevel }}
+                </span>
+              </div>
             </div>
-            <span class="text-xs px-2 py-0.5 rounded-full font-extrabold bg-rose-100 text-rose-700">
+
+            <span class="px-2 py-0.5 rounded-[6px] bg-[#FCE7F3] border border-[#8B5CF6] text-[10px] font-extrabold text-[#6B21A8] uppercase shrink-0">
               {{ food.rarity }}
             </span>
           </div>
 
-          <div class="flex items-center justify-between text-[11px] text-gray-500">
-            <span>Mức ví ước tính:</span>
-            <span class="font-bold text-gray-700">{{ food.priceLevel }}</span>
-          </div>
-
           <!-- Penalty if any -->
-          <div v-if="punishment" class="bg-amber-50 p-2 rounded-xl border border-amber-200 text-[11px]">
+          <div v-if="punishment" class="bg-amber-50 p-2.5 rounded-xl border border-amber-200 text-xs">
             <span class="font-extrabold text-amber-800">Hình phạt kèm theo: </span>
             <span class="text-amber-900">{{ punishment.icon }} {{ punishment.title }} ({{ punishment.description }})</span>
           </div>
         </div>
 
-        <!-- Legally-binding Cute Commitment Clause -->
-        <div class="py-3 text-[10px] text-gray-600 font-sans leading-relaxed text-center bg-pink-50/40 rounded-xl my-2 p-2 border border-pink-100">
-          <p class="font-extrabold text-rose-600 uppercase mb-0.5">📜 ĐIỀU KHOẢN CAM KẾT HẸN HÒ 📜</p>
-          <p>
-            Hai bên cam kết vui vẻ đi ăn, cấm dỗi, tuyệt đối không nói câu
+        <!-- Cute Commitment Clause Box -->
+        <div class="my-3 p-3 bg-[#FCE7F3]/60 rounded-[16px] border-[1.5px] border-[#DDD6FE] flex flex-col gap-1 text-center relative z-10">
+          <p class="font-sora text-xs font-extrabold text-[#6B21A8] uppercase tracking-wide">
+            📜 ĐIỀU KHOẢN CAM KẾT HẸN HÒ 📜
+          </p>
+          <p class="text-[11px] text-[#1E1B4B] leading-relaxed">
+            Hai bên cam kết vui vẻ đi ăn, cấm dỗi hờn, tuyệt đối không nói câu
             <em>"Em/Anh ăn gì cũng được"</em>, mọi thắc mắc xin hỏi máy Gacha.
             Vi phạm phạt gấp đôi!
           </p>
         </div>
 
-        <!-- Red Approval Seal Stamp -->
-        <div class="absolute right-4 bottom-14 pointer-events-none transform -rotate-12 opacity-85">
-          <div class="w-24 h-24 rounded-full border-4 border-red-600 flex flex-col items-center justify-center text-red-600 font-black text-center p-1 uppercase tracking-tighter">
-            <span class="text-[9px] border-b border-red-500 w-full">★ ★ ★</span>
-            <span class="text-[10px] my-0.5">ĐÃ CHỐT KÈO</span>
+        <!-- 3D Red Approval Seal Stamp -->
+        <div class="absolute right-3 bottom-3 pointer-events-none transform -rotate-12 opacity-85 z-20">
+          <div class="w-22 h-22 rounded-full border-3 border-red-600 flex flex-col items-center justify-center text-red-600 font-black text-center p-1 uppercase tracking-tighter bg-white/40 backdrop-blur-[1px]">
+            <span class="text-[8px] border-b border-red-500 w-full">★ ★ ★</span>
+            <span class="text-[9px] my-0.5 font-sora font-extrabold">ĐÃ CHỐT KÈO</span>
             <span class="text-[7px]">MIỄN ĐỔI TRẢ</span>
-            <span class="text-[9px] border-t border-red-500 w-full">★ ★ ★</span>
+            <span class="text-[8px] border-t border-red-500 w-full">★ ★ ★</span>
           </div>
-        </div>
-
-        <!-- Fake Barcode & Thank you -->
-        <div class="pt-2 text-center text-gray-400">
-          <div class="font-mono tracking-widest text-lg select-none">
-            ||| | |||| | ||| |||| | ||||| | ||
-          </div>
-          <p class="text-[9px] mt-1 text-gray-400 font-sans">
-            Chúc hai bạn có một bữa ăn ngon miệng & ngập tràn hạnh phúc! ❤️
-          </p>
         </div>
       </div>
 
       <!-- Action Buttons below receipt -->
-      <div class="w-full mt-4 space-y-2 font-sans">
-        <!-- Download PNG image button -->
+      <div class="w-full mt-3 flex flex-col gap-2 z-20">
+        <!-- Download PNG button -->
         <button
           @click="downloadReceiptImage"
           :disabled="isGeneratingImage"
-          class="w-full py-3 px-4 rounded-2xl bg-gradient-to-r from-rose-500 to-pink-500 text-white font-extrabold text-xs shadow-lg shadow-pink-300 active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer"
+          class="w-full h-[48px] bg-[#3B82F6] hover:bg-blue-600 disabled:opacity-75 border-2 border-white rounded-[24px] shadow-[0_4px_8px_rgba(59,130,246,0.3)] font-sora font-extrabold text-sm text-white flex items-center justify-center gap-2 transition-all active:scale-95 cursor-pointer"
         >
           <span>📸</span>
-          <span v-if="!isGeneratingImage">Tải Ảnh Biên Lai Về Máy</span>
+          <span v-if="!isGeneratingImage">TẢI THẺ TÌNH YÊU (PNG)</span>
           <span v-else>Đang xuất ảnh PNG...</span>
         </button>
 
         <!-- Copy Message button -->
         <button
           @click="copyMessageToClipboard"
-          class="w-full py-2.5 px-4 rounded-2xl bg-white text-gray-700 font-bold text-xs shadow-sm border border-pink-200 active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer hover:bg-pink-50"
+          class="w-full h-[48px] bg-white hover:bg-purple-50 border-2 border-[#DDD6FE] rounded-[24px] font-sora font-extrabold text-sm text-[#6B21A8] flex items-center justify-center gap-2 transition-all active:scale-95 cursor-pointer shadow-xs"
         >
           <span>📋</span>
-          <span>{{ copySuccess ? 'Đã sao chép tin nhắn! ✨' : 'Sao Chép Tin Nhắn Chốt Đơn' }}</span>
+          <span>{{ copySuccess ? 'Đã sao chép tin nhắn! ✨' : 'SAO CHÉP LỜI CHỐT KÈO' }}</span>
         </button>
 
         <!-- Restart / New Date Button -->
         <button
           @click="$emit('restart')"
-          class="btn-restart w-full py-2 px-4 rounded-2xl text-white/90 hover:text-white font-bold text-xs text-center transition-all cursor-pointer underline underline-offset-4"
+          class="btn-restart w-full py-2 font-sora font-bold text-xs text-white/90 hover:text-white text-center transition-all cursor-pointer underline underline-offset-4"
         >
           🔄 Quay Bữa Ăn Tiếp Theo
         </button>
       </div>
     </div>
   </div>
+  </Teleport>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import { toPng } from 'html-to-image'
+
+const isTest = import.meta.env?.MODE === 'test'
 
 const props = defineProps({
   food: {

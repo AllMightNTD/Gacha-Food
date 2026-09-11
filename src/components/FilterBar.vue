@@ -1,68 +1,41 @@
 <template>
-  <div class="w-full px-2.5 sm:px-4 py-1.5 sm:py-2 space-y-1.5">
-    <!-- Category Pills Scrollable -->
-    <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 text-xs">
-      <button
-        v-for="cat in categories"
-        :key="cat.id"
-        @click="setCategory(cat.id)"
-        class="whitespace-nowrap px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full font-bold transition-all duration-200 shadow-xs flex items-center gap-1 shrink-0 text-[11px] sm:text-xs cursor-pointer"
-        :class="selectedCategory === cat.id
-          ? 'bg-rose-500 text-white shadow-rose-200 scale-102 sm:scale-105'
-          : 'bg-white/90 text-gray-600 hover:bg-rose-50 border border-rose-100/70'"
-      >
-        <span>{{ cat.icon }}</span>
-        <span>{{ cat.label }}</span>
-      </button>
-    </div>
-
-    <!-- Budget Filter Pills -->
-    <div class="flex items-center justify-between gap-1 bg-white/80 p-0.5 sm:p-1 rounded-2xl border border-pink-100">
-      <button
-        v-for="b in budgetOptions"
-        :key="b.id"
-        @click="setBudget(b.id)"
-        class="flex-1 py-1.5 px-1 rounded-xl font-bold transition-all flex items-center justify-center gap-1 whitespace-nowrap text-[10px] min-[360px]:text-[11px] sm:text-xs cursor-pointer"
-        :class="selectedBudget === b.id
-          ? 'bg-gradient-to-r from-amber-400 to-rose-400 text-white shadow-xs'
-          : 'text-gray-500 hover:text-gray-800'"
-      >
-        <span class="text-xs shrink-0">{{ b.icon }}</span>
-        <span class="whitespace-nowrap">{{ b.label }}</span>
-        <span v-if="b.sub" class="text-[9px] opacity-80 hidden min-[400px]:inline">({{ b.sub }})</span>
-      </button>
+  <div class="w-full px-4 py-2 flex items-center justify-between gap-2 font-sora">
+    <div
+      v-for="cat in figmaCategories"
+      :key="cat.id"
+      @click="handleCategoryClick(cat.id)"
+      class="w-[104px] h-[110px] rounded-[20px] p-3 border-2 flex flex-col items-center justify-center gap-2 cursor-pointer transition-all duration-200 active:scale-95 shadow-xs"
+      :class="selectedCategory === cat.id
+        ? 'bg-[#FCE7F3] border-[#8B5CF6] text-[#6B21A8] shadow-md scale-105'
+        : 'bg-[#FFFBEB] border-[#F3E8FF] text-[#1E1B4B] hover:border-purple-300'"
+    >
+      <div class="w-10 h-10 flex items-center justify-center text-[#8B5CF6]">
+        <component :is="cat.iconComponent" class="w-9 h-9" />
+      </div>
+      <span class="text-xs font-bold text-center leading-tight">
+        {{ cat.label }}
+      </span>
     </div>
   </div>
 </template>
 
 <script setup>
+import { SmilePlus, Soup, CakeSlice } from 'lucide-vue-next'
 import { useFoodStore } from '../composables/useFoodStore.js'
 
-const { selectedCategory, selectedBudget, setCategory, setBudget } = useFoodStore()
+const { selectedCategory, setCategory } = useFoodStore()
 
-const categories = [
-  { id: 'all', label: 'Tất cả món', icon: '✨' },
-  { id: 'hotpot', label: 'Lẩu & Nước', icon: '🍲' },
-  { id: 'bbq', label: 'Nướng & Xèo', icon: '🥩' },
-  { id: 'noodle', label: 'Bún & Phở', icon: '🍜' },
-  { id: 'rice', label: 'Cơm chắc dạ', icon: '🍛' },
-  { id: 'snack', label: 'Ăn vặt', icon: '🥟' },
-  { id: 'dessert', label: 'Trà sữa/Chè', icon: '🧋' },
+const figmaCategories = [
+  { id: 'morning', label: 'Món Sáng', iconComponent: SmilePlus },
+  { id: 'lunch', label: 'Món Trưa', iconComponent: Soup },
+  { id: 'snack', label: 'Ăn Vặt', iconComponent: CakeSlice },
 ]
 
-const budgetOptions = [
-  { id: 'all', label: 'Tùy duyên', icon: '🎲' },
-  { id: 'rich', label: 'Đầu tháng', sub: 'SSR', icon: '👑' },
-  { id: 'cheap', label: 'Cuối tháng', sub: 'Bình dân', icon: '🪙' },
-]
+function handleCategoryClick(id) {
+  if (selectedCategory.value === id) {
+    setCategory('all')
+  } else {
+    setCategory(id)
+  }
+}
 </script>
-
-<style scoped>
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-</style>
